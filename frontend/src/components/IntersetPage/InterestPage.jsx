@@ -40,7 +40,7 @@ const InterestPage = () => {
           console.log("userId", userId);
 
           const userData = res.data.filter((item) => item.userId === userId);
-
+          console.log(userData);
           if (userData.length === 0) {
             setData("There is no exits!");
             return;
