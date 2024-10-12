@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./InterestPage.css";
 import InterestPageItem from "./InterestPageItem";
 import { Link } from "react-router-dom";
+import NoInterestData from "./NoInterestData";
 
 const InterestPage = () => {
   const [interestRateData, setInterestRateData] = useState({
@@ -171,13 +172,7 @@ const InterestPage = () => {
         <div style={{ color: "red", textAlign: "center" }}>{error}</div>
       )}
 
-      {data.length > 0 ? (
-        <InterestPageItem data={data} />
-      ) : (
-        <div style={{ textAlign: "center", marginTop: "20px", color: "black" }}>
-          <h2>No interest rate data available.</h2>
-        </div>
-      )}
+      {data.length > 0 ? <InterestPageItem data={data} /> : <NoInterestData />}
     </>
   );
 };
