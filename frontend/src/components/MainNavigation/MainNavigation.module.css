@@ -1,0 +1,22 @@
+.header {
+  padding: 1em;
+}
+
+.list {
+  display: flex;
+  gap: 1rem;
+  list-style: none; /* Added to remove default bullet points */
+}
+
+.list a {
+  text-decoration: none;
+  color: var(--color-primary-400);
+}
+
+.list a:hover,
+.list a.active {
+  color: white;
+  background-color: blue;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+}

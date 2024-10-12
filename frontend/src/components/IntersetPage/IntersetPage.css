@@ -1,0 +1,61 @@
+.input-group {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 18rem;
+  margin: auto;
+}
+h2 {
+  text-align: center;
+  color: #333;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+label {
+  margin-bottom: 5px;
+  color: #555;
+}
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+}
+button:hover {
+  background-color: #0056b3;
+}
+#interestRate {
+  text-align: center;
+  margin-top: 20px;
+}
+a {
+  text-decoration: none;
+  color: var(--color-primary-400);
+  color: white;
+}
+a:hover {
+  color: white;
+  background-color: blue;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+}
