@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./IntersetPage.css";
+import "./InterestPage.css";
 import InterestPageItem from "./InterestPageItem";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const InterestPage = () => {
   const [interestRateData, setInterestRateData] = useState({
@@ -37,11 +37,7 @@ const InterestPage = () => {
         const res = await response.json();
         if (response.ok) {
           const userId = localStorage.getItem("id");
-          console.log("userId", userId);
-
           const userData = res.data.filter((item) => item.userId === userId);
-          console.log(userData);
-
           setData(userData);
         } else {
           setError(res.msg || "Fetch Failed. Please try again.");
@@ -52,7 +48,7 @@ const InterestPage = () => {
     };
 
     fetchData(); // Fetch data when the component mounts
-  }, [interestRate]); // Empty dependency array ensures this runs only once on mount
+  }, []); // Run only once on mount
 
   const calculateInterest = async () => {
     try {
@@ -84,6 +80,7 @@ const InterestPage = () => {
       setError("An error occurred. Please try again later.");
     }
   };
+
   const logoutHandler = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("token");
@@ -172,7 +169,13 @@ const InterestPage = () => {
 
       {error && <div style={{ color: "red" }}>{error}</div>}
 
-      {data.length > 0 && <InterestPageItem data={data} />}
+      {data.length > 0 ? (
+        <InterestPageItem data={data} />
+      ) : (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <h2>No interest rate data available.</h2>
+        </div>
+      )}
     </>
   );
 };
