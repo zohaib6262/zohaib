@@ -167,7 +167,9 @@ const InterestPage = () => {
         </div>
       )}
 
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      {error && (
+        <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+      )}
 
       {data.length > 0 ? (
         <InterestPageItem data={data} />
