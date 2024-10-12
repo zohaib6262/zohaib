@@ -218,13 +218,7 @@ const jwtPassword = "zohaib123";
 mongoose.connect(
   "mongodb+srv://admin:zohaib259@cluster0.qshup.mongodb.net/user_app"
 );
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Allow only this origin
-    methods: ["GET", "POST"], // Allow specific methods if needed
-    allowedHeaders: ["Content-Type"], // Allow specific headers if needed
-  })
-);
+app.use(cors());
 // Middleware to parse JSON and handle CORS
 app.use(express.json());
 // app.use(cors());
