@@ -48,7 +48,7 @@ const InterestPage = () => {
     };
 
     fetchData(); // Fetch data when the component mounts
-  }, []); // Run only once on mount
+  }, [interestRate]); // Run only once on mount
 
   const calculateInterest = async () => {
     try {
