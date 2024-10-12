@@ -24,13 +24,16 @@ const InterestPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5500/authinterestRate", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        const response = await fetch(
+          "https://zohaib-two.vercel.app/interestRate",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
         const res = await response.json();
         if (response.ok) {
           const userId = localStorage.getItem("id");
@@ -52,7 +55,7 @@ const InterestPage = () => {
   const calculateInterest = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5500/calculateInterestRate",
+        "https://zohaib-two.vercel.app/calculateInterestRate",
         {
           method: "POST",
           headers: {

@@ -18,7 +18,7 @@ const SignForm = () => {
 
   const signupHandler = async () => {
     try {
-      const response = await fetch("http://localhost:5500/authsignup", {
+      const response = await fetch("https://zohaib-two.vercel.app/authsignup", {
         method: "POST",
         body: JSON.stringify(signupData),
         headers: { "Content-Type": "application/json" },

@@ -15,7 +15,7 @@ const LoginForm = () => {
 
   const loginHandler = async () => {
     try {
-      const response = await fetch("http://localhost:5500/authlogin", {
+      const response = await fetch("https://zohaib-two.vercel.app/authlogin", {
         method: "POST",
         body: JSON.stringify(loginData),
         headers: { "Content-Type": "application/json" },
