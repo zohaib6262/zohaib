@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
-import InterestPage from "../InterestPage/InterestPage";
+import InterestPage from "../IntersetPage/InterestPage";
 import { Link, NavLink } from "react-router-dom";
 
 const LoginForm = () => {
