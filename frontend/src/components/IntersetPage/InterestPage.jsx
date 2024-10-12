@@ -107,7 +107,7 @@ const InterestPage = () => {
           Interest Rate Page
         </h2>
         <Link
-          to="/login"
+          to="login"
           onClick={logoutHandler}
           style={{
             alignContent: "center",
