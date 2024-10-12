@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: "*", // Allow only this origin
     methods: ["GET", "POST"], // Allow specific methods if needed
-    allowedHeaders: ["Content-Type"], // Allow specific headers if needed
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 // Middleware to parse JSON and handle CORS
@@ -94,7 +94,7 @@ const Interest = mongoose.model("Interest", {
 // POST route to handle interest calculation
 app.post(
   "/calculateInterestRate",
-  cors(),
+
   authenticateJWT,
   async (req, res) => {
     const { principle, rate, duration, userId } = req.body;
@@ -119,7 +119,7 @@ app.post(
   }
 );
 
-app.get("/interestRate", cors(), async (req, res) => {
+app.get("/interestRate", authenticateJWT, async (req, res) => {
   const exitingUser = await Interest.find();
   console.log(exitingUser);
   res.json({ data: exitingUser });
