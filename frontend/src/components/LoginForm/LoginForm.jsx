@@ -23,8 +23,6 @@ const LoginForm = () => {
 
       const res = await response.json();
       if (response.ok) {
-        localStorage?.removeItem("id");
-        localStorage?.removeItem("token");
         localStorage?.setItem("id", res?.id);
         localStorage?.setItem("token", res?.token);
         setIsLoggedIn(true);

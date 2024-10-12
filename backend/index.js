@@ -49,7 +49,8 @@ app.post("/authlogin", async (req, res) => {
 
     // If user is not found, send 401 Unauthorized with a message
     if (!existingUser) {
-      return res.status(401).json({ msg: "Invalid credentials" });
+      res.status(401).json({ msg: "Invalid credentials" });
+      return;
     }
 
     // Generate token using the user's username (or any other identifier)
