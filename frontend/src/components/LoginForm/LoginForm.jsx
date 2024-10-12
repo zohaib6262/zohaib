@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
-import InterestPage from "../IntersetPage/InterestPage";
+import InterestPage from "../InterestPage/InterestPage";
 import { Link, NavLink } from "react-router-dom";
-// import InterestPage from "../InterestPage/InterestPage"; // Assuming InterestPage is the next page
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
@@ -23,21 +22,25 @@ const LoginForm = () => {
 
       const res = await response.json();
       if (!response.ok) {
+        // Keep the user on the login page and set the error message
         console.log(response.status);
         setError(res.msg || "Login failed. Please try again.");
+        setIsLoggedIn(false); // Ensure the user is not marked as logged in
       } else {
         localStorage.setItem("id", res?.id);
         localStorage.setItem("token", res?.token);
-        setIsLoggedIn(true);
+        setIsLoggedIn(true); // Mark the user as logged in
+        setError(""); // Clear any previous error
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
+      setIsLoggedIn(false); // Ensure the user is not marked as logged in
     }
   };
 
   return (
     <>
-      {!isLoggedIn || error ? (
+      {!isLoggedIn ? (
         <div className="login">
           <h2>Login</h2>
           <div>
@@ -63,8 +66,11 @@ const LoginForm = () => {
             />
           </div>
           <NavLink
-            onClick={loginHandler}
-            to="/interestRate"
+            onClick={(e) => {
+              e.preventDefault(); // Prevent the default behavior of NavLink
+              loginHandler(); // Call the login handler
+            }}
+            to="#" // Avoid navigation on click
             style={{
               backgroundColor: "#007bff",
               padding: "0.5rem 2rem",
