@@ -23,10 +23,10 @@ const LoginForm = () => {
 
       const res = await response.json();
       if (response.ok) {
-        localStorage?.setItem("id", res?.id);
-        localStorage?.setItem("token", res?.token);
+        localStorage.setItem("id", res?.id);
+        localStorage.setItem("token", res?.token);
         setIsLoggedIn(true);
-      } else {
+      } else if (response.status === 401 || response.status === 403) {
         console.log(response.status);
         setError(res.msg || "Login failed. Please try again.");
       }
@@ -82,7 +82,7 @@ const LoginForm = () => {
           {error && <div id="error">{error}</div>}
         </div>
       ) : (
-        <InterestPage />
+        !error && <InterestPage />
       )}
     </>
   );
