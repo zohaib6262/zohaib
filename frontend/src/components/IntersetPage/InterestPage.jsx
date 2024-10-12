@@ -41,10 +41,7 @@ const InterestPage = () => {
 
           const userData = res.data.filter((item) => item.userId === userId);
           console.log(userData);
-          if (userData.length === 0) {
-            setData("There is no exits!");
-            return;
-          }
+
           setData(userData);
         } else {
           setError(res.msg || "Fetch Failed. Please try again.");
