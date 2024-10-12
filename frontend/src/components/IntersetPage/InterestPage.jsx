@@ -74,7 +74,7 @@ const InterestPage = () => {
           total: res.total,
         });
       } else {
-        setError(res.msg || "Calculation failed. Please try again.");
+        setError(res.msg || "Calculation failed. Please try again");
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
