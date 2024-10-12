@@ -92,29 +92,34 @@ const Interest = mongoose.model("Interest", {
 });
 
 // POST route to handle interest calculation
-app.post("/calculateInterestRate", authenticateJWT, async (req, res) => {
-  const { principle, rate, duration, userId } = req.body;
-  const interestRate =
-    (parseFloat(principle) * parseFloat(rate) * parseFloat(duration)) / 100;
-  const total = parseFloat(principle) + interestRate;
+app.post(
+  "/calculateInterestRate",
+  cors(),
+  authenticateJWT,
+  async (req, res) => {
+    const { principle, rate, duration, userId } = req.body;
+    const interestRate =
+      (parseFloat(principle) * parseFloat(rate) * parseFloat(duration)) / 100;
+    const total = parseFloat(principle) + interestRate;
 
-  const interestRateData = new Interest({
-    userId,
-    id: Math.random().toString(),
-    total: total.toString(),
-    principle: principle.toString(),
-    interestRate: interestRate.toString(),
-  });
+    const interestRateData = new Interest({
+      userId,
+      id: Math.random().toString(),
+      total: total.toString(),
+      principle: principle.toString(),
+      interestRate: interestRate.toString(),
+    });
 
-  await interestRateData.save();
-  res.status(200).json({
-    msg: "Interest Rate Data saved in DB successfully.",
-    interestRate,
-    total,
-  });
-});
+    await interestRateData.save();
+    res.status(200).json({
+      msg: "Interest Rate Data saved in DB successfully.",
+      interestRate,
+      total,
+    });
+  }
+);
 
-app.get("/interestRate", async (req, res) => {
+app.get("/interestRate", cors(), async (req, res) => {
   const exitingUser = await Interest.find();
   console.log(exitingUser);
   res.json({ data: exitingUser });
