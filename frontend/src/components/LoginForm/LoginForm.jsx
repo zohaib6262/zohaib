@@ -72,7 +72,7 @@ const LoginForm = () => {
               e.preventDefault(); // Prevent the default behavior of NavLink
               loginHandler(); // Call the login handler
             }}
-            to="#" // Avoid navigation on click
+            to="/interestRate" // Avoid navigation on click
             style={{
               backgroundColor: "#007bff",
               padding: "0.5rem 2rem",

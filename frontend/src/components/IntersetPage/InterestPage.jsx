@@ -174,7 +174,7 @@ const InterestPage = () => {
       {data.length > 0 ? (
         <InterestPageItem data={data} />
       ) : (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <div style={{ textAlign: "center", marginTop: "20px", color: "black" }}>
           <h2>No interest rate data available.</h2>
         </div>
       )}
