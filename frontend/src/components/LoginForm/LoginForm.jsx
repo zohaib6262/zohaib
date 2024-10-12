@@ -37,7 +37,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {!isLoggedIn ? (
+      {!isLoggedIn || error ? (
         <div className="login">
           <h2>Login</h2>
           <div>
@@ -82,7 +82,7 @@ const LoginForm = () => {
           {error && <div id="error">{error}</div>}
         </div>
       ) : (
-        !error && <InterestPage />
+        <InterestPage />
       )}
     </>
   );
