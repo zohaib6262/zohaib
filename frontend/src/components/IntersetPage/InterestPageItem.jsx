@@ -11,7 +11,7 @@ const InterestPageItem = ({ data }) => {
         <h2>Total Interest</h2>
       </div>
       {data.length === 0
-        ? "No data exits!"
+        ? "<h1 style={{display:flex,justifyContent:space-around}}>No data exits!</h1>"
         : data.map((user) => {
             return (
               <div
