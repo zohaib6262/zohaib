@@ -31,8 +31,8 @@ const LoginForm = () => {
       } else {
         localStorage.setItem("id", res?.id);
         localStorage.setItem("token", res?.token);
-        setIsLoggedIn(true); // Mark the user as logged in
         setError(""); // Clear any previous error
+        setIsLoggedIn(true); // Mark the user as logged in
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
