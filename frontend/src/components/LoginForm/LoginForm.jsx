@@ -27,6 +27,7 @@ const LoginForm = () => {
         localStorage?.setItem("token", res?.token);
         setIsLoggedIn(true);
       } else {
+        console.log(response.status);
         setError(res.msg || "Login failed. Please try again.");
       }
     } catch (err) {
