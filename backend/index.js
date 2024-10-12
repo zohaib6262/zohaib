@@ -12,7 +12,7 @@ mongoose.connect(
 );
 app.use(
   cors({
-    origin: "https://zohaibportfolio-ul.vercel.app", // Allow only this origin
+    origin: "*", // Allow only this origin
     methods: ["GET", "POST"], // Allow specific methods if needed
     allowedHeaders: ["Content-Type"], // Allow specific headers if needed
   })
@@ -42,23 +42,6 @@ app.post("/authsignup", async (req, res) => {
   res.status(200).json({ msg: "User saved in DB successfully" });
 });
 
-// app.post("/login", async (req, res) => {
-//   const { username, password } = req.body;
-//   console.log(username, password);
-//   const existingUser = await Users.findOne({ username });
-
-//   console.log("exiting User", existingUser);
-//   if (!existingUser) {
-//     return res.status(401).json({ msg: "Invalid credentials" });
-//   }
-//   // if (existingUser && existingUser.password === password) {
-//   const token = jwt.sign({ username }, jwtPassword);
-//   return res.json({ token });
-//   // }
-// });
-
-// Use bcrypt for password hashing
-
 app.post("/authlogin", async (req, res) => {
   try {
     // Find user by username
@@ -81,43 +64,6 @@ app.post("/authlogin", async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" }); // Send 500 Internal Server Error if something goes wrong
   }
 });
-
-// app.post("/login", async (req, res) => {
-//   console.log("jeesd");
-//   const { username, password } = req.body;
-
-//   try {
-//     const existingUser = await Users.findOne({ username });
-
-//     if (!existingUser) {
-//       return res.status(401).json({ msg: "Invalid credentials" });
-//     }
-
-//     // Compare the provided password with the hashed password in the database
-//     // const isMatch = await bcrypt.compare(password, existingUser.password);
-
-//     // if (!isMatch) {
-//     //   return res.status(401).json({ msg: "Invalid credentials" });
-//     // }
-
-//     // Generate the JWT token upon successful login
-//     const token = jwt.sign(
-//       { username: existingUser.username },
-//       jwtPassword
-//       // process.env.JWT_SECRET,
-//       // {
-//       //   expiresIn: "1h", // Token expiration
-//       // }
-//     );
-
-//     return res.json({ token });
-//   } catch (error) {
-//     console.error("Login error: ", error);
-//     return res
-//       .status(500)
-//       .json({ msg: "Server error. Please try again later." });
-//   }
-// });
 
 // Middleware to authenticate JWT
 const authenticateJWT = (req, res, next) => {
