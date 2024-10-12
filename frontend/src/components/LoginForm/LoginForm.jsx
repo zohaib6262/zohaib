@@ -22,13 +22,13 @@ const LoginForm = () => {
       });
 
       const res = await response.json();
-      if (response.ok) {
+      if (!response.ok) {
+        console.log(response.status);
+        setError(res.msg || "Login failed. Please try again.");
+      } else {
         localStorage.setItem("id", res?.id);
         localStorage.setItem("token", res?.token);
         setIsLoggedIn(true);
-      } else if (response.status === 401 || response.status === 403) {
-        console.log(response.status);
-        setError(res.msg || "Login failed. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
