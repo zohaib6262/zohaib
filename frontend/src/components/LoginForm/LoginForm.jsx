@@ -24,8 +24,9 @@ const LoginForm = () => {
       if (!response.ok) {
         // Keep the user on the login page and set the error message
         console.log(response.status);
+        console.log(res.msg);
         setError(res.msg || "Login failed. Please try again.");
-        console.log(error);
+
         setIsLoggedIn(false); // Ensure the user is not marked as logged in
       } else {
         localStorage.setItem("id", res?.id);
