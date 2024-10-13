@@ -13,6 +13,7 @@ const SignForm = () => {
   const [error, setError] = useState("");
 
   const onChangeHandler = (identifier, value) => {
+    setError("");
     setSignupData({ ...signupData, [identifier]: value });
   };
 

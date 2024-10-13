@@ -9,6 +9,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onChangeHandler = (identifier, value) => {
+    setError("");
     setLoginData({ ...loginData, [identifier]: value });
   };
 
