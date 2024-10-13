@@ -116,7 +116,7 @@ const InterestPage = () => {
         >
           Interest Rate Page
         </h2>
-        <NavLink
+        <Link
           to="/login"
           onClick={logoutHandler}
           style={{
@@ -127,7 +127,7 @@ const InterestPage = () => {
           }}
         >
           Logout
-        </NavLink>
+        </Link>
       </div>
 
       <div className="input-group">
