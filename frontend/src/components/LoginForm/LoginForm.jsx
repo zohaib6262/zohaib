@@ -75,7 +75,7 @@ const LoginForm = () => {
             to="/interestRate" // Avoid navigation on click
             style={{
               backgroundColor: "#007bff",
-              padding: "0.5rem 2rem",
+              padding: "0.5rem",
               borderRadius: "0.6rem",
               textAlign: "center",
               margin: "5rem",
