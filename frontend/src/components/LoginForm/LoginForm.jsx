@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
-import InterestPage from "../IntersetPage/InterestPage";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const onChangeHandler = (identifier, value) => {
     setLoginData({ ...loginData, [identifier]: value });
@@ -25,73 +24,60 @@ const LoginForm = () => {
         // Keep the user on the login page and set the error message
         console.log(response.status);
         console.log(res.msg);
-        setError(res.msg || "Login failed. Please try again.");
-
-        setIsLoggedIn(false); // Ensure the user is not marked as logged in
+        setError(res.msg || "Login failed. Please try again."); // Ensure the user is not marked as logged in
       } else {
         localStorage.setItem("id", res?.id);
         localStorage.setItem("token", res?.token);
         setError(""); // Clear any previous error
-        setIsLoggedIn(true); // Mark the user as logged in
+        navigate("/interestRate");
+        // Mark the user as logged in
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
-      setIsLoggedIn(false); // Ensure the user is not marked as logged in
+      // Ensure the user is not marked as logged in
     }
   };
 
   return (
     <>
-      {!isLoggedIn ? (
-        <div className="login">
-          <h2>Login</h2>
-          <div>
-            <label htmlFor="username">Email</label>
-            <input
-              type="email"
-              id="username"
-              placeholder="Enter your email"
-              required
-              value={loginData.username}
-              onChange={(e) => onChangeHandler("username", e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              required
-              value={loginData.password}
-              onChange={(e) => onChangeHandler("password", e.target.value)}
-            />
-          </div>
-          <NavLink
-            onClick={(e) => {
-              e.preventDefault(); // Prevent the default behavior of NavLink
-              loginHandler(); // Call the login handler
-            }}
-            to="/interestRate" // Avoid navigation on click
-            style={{
-              backgroundColor: "#007bff",
-              padding: "0.5rem",
-              borderRadius: "0.6rem",
-              textAlign: "center",
-              margin: "5rem",
-            }}
-          >
-            Login
-          </NavLink>
-          <div id="account">
-            <span>Don't have an account? </span>
-            <Link to="/signup">Sign up</Link>
-          </div>
-          {error && <div id="error">{error}</div>}
+      <div className="login">
+        <h2>Login</h2>
+        <div>
+          <label htmlFor="username">Email</label>
+          <input
+            type="email"
+            id="username"
+            placeholder="Enter your email"
+            required
+            value={loginData.username}
+            onChange={(e) => onChangeHandler("username", e.target.value)}
+          />
         </div>
-      ) : (
-        <InterestPage />
-      )}
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+            value={loginData.password}
+            onChange={(e) => onChangeHandler("password", e.target.value)}
+          />
+        </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault(); // Prevent the default behavior of NavLink
+            loginHandler(); // Call the login handler
+          }}
+        >
+          Login
+        </button>
+        <div id="account">
+          <span>Don't have an account? </span>
+          <Link to="/signup">Sign up</Link>
+        </div>
+        {error && <div id="error">{error}</div>}
+      </div>
     </>
   );
 };

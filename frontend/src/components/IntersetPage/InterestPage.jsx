@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./InterestPage.css";
+import "./IntersetPage.css";
 import InterestPageItem from "./InterestPageItem";
-import { Link } from "react-router-dom";
-import NoInterestData from "./NoInterestData";
+import { Link, NavLink } from "react-router-dom";
 
 const InterestPage = () => {
   const [interestRateData, setInterestRateData] = useState({
@@ -25,19 +24,18 @@ const InterestPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://zohaib-two.vercel.app/interestRate",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await fetch("http://localhost:5500/authinterestRate", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        });
         const res = await response.json();
         if (response.ok) {
           const userId = localStorage.getItem("id");
+          console.log("userId", userId);
+
           const userData = res.data.filter((item) => item.userId === userId);
           setData(userData);
         } else {
@@ -49,7 +47,7 @@ const InterestPage = () => {
     };
 
     fetchData(); // Fetch data when the component mounts
-  }, [interestRate]); // Run only once on mount
+  }, [interestRate]); // Empty dependency array ensures this runs only once on mount
 
   const calculateInterest = async () => {
     try {
@@ -75,13 +73,12 @@ const InterestPage = () => {
           total: res.total,
         });
       } else {
-        setError(res.msg || "Calculation failed. Please try again");
+        setError(res.msg || "Calculation failed. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again later.");
     }
   };
-
   const logoutHandler = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("token");
@@ -107,8 +104,8 @@ const InterestPage = () => {
         >
           Interest Rate Page
         </h2>
-        <Link
-          to="login"
+        <NavLink
+          to="/login"
           onClick={logoutHandler}
           style={{
             alignContent: "center",
@@ -118,7 +115,7 @@ const InterestPage = () => {
           }}
         >
           Logout
-        </Link>
+        </NavLink>
       </div>
 
       <div className="input-group">
@@ -168,11 +165,14 @@ const InterestPage = () => {
         </div>
       )}
 
-      {error && (
-        <div style={{ color: "red", textAlign: "center" }}>{error}</div>
-      )}
+      {error && <div style={{ color: "red" }}>{error}</div>}
 
-      {data.length > 0 ? <InterestPageItem data={data} /> : <NoInterestData />}
+      {data.length > 0 && <InterestPageItem data={data} />}
+      {data.length === 0 && (
+        <div>
+          <h2>There is not exit data for this user</h2>
+        </div>
+      )}
     </>
   );
 };

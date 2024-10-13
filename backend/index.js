@@ -12,7 +12,7 @@ mongoose.connect(
 );
 app.use(
   cors({
-    origin: "*", // Allow only this origin
+    origin: ["https://zohaibportfolio-ul.vercel.app", "*"], // Allow only this origin
     methods: ["GET", "POST"], // Allow specific methods if needed
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -42,6 +42,23 @@ app.post("/authsignup", async (req, res) => {
   res.status(200).json({ msg: "User saved in DB successfully" });
 });
 
+// app.post("/login", async (req, res) => {
+//   const { username, password } = req.body;
+//   console.log(username, password);
+//   const existingUser = await Users.findOne({ username });
+
+//   console.log("exiting User", existingUser);
+//   if (!existingUser) {
+//     return res.status(401).json({ msg: "Invalid credentials" });
+//   }
+//   // if (existingUser && existingUser.password === password) {
+//   const token = jwt.sign({ username }, jwtPassword);
+//   return res.json({ token });
+//   // }
+// });
+
+// Use bcrypt for password hashing
+
 app.post("/authlogin", async (req, res) => {
   try {
     // Find user by username
@@ -49,8 +66,7 @@ app.post("/authlogin", async (req, res) => {
 
     // If user is not found, send 401 Unauthorized with a message
     if (!existingUser) {
-      res.status(401).json({ msg: "Invalid credentials" });
-      return;
+      return res.status(401).json({ msg: "Invalid credentials" });
     }
 
     // Generate token using the user's username (or any other identifier)
@@ -65,6 +81,43 @@ app.post("/authlogin", async (req, res) => {
     return res.status(500).json({ msg: "Internal server error" }); // Send 500 Internal Server Error if something goes wrong
   }
 });
+
+// app.post("/login", async (req, res) => {
+//   console.log("jeesd");
+//   const { username, password } = req.body;
+
+//   try {
+//     const existingUser = await Users.findOne({ username });
+
+//     if (!existingUser) {
+//       return res.status(401).json({ msg: "Invalid credentials" });
+//     }
+
+//     // Compare the provided password with the hashed password in the database
+//     // const isMatch = await bcrypt.compare(password, existingUser.password);
+
+//     // if (!isMatch) {
+//     //   return res.status(401).json({ msg: "Invalid credentials" });
+//     // }
+
+//     // Generate the JWT token upon successful login
+//     const token = jwt.sign(
+//       { username: existingUser.username },
+//       jwtPassword
+//       // process.env.JWT_SECRET,
+//       // {
+//       //   expiresIn: "1h", // Token expiration
+//       // }
+//     );
+
+//     return res.json({ token });
+//   } catch (error) {
+//     console.error("Login error: ", error);
+//     return res
+//       .status(500)
+//       .json({ msg: "Server error. Please try again later." });
+//   }
+// });
 
 // Middleware to authenticate JWT
 const authenticateJWT = (req, res, next) => {
@@ -93,34 +146,29 @@ const Interest = mongoose.model("Interest", {
 });
 
 // POST route to handle interest calculation
-app.post(
-  "/calculateInterestRate",
+app.post("/calculateInterestRate", authenticateJWT, async (req, res) => {
+  const { principle, rate, duration, userId } = req.body;
+  const interestRate =
+    (parseFloat(principle) * parseFloat(rate) * parseFloat(duration)) / 100;
+  const total = parseFloat(principle) + interestRate;
 
-  authenticateJWT,
-  async (req, res) => {
-    const { principle, rate, duration, userId } = req.body;
-    const interestRate =
-      (parseFloat(principle) * parseFloat(rate) * parseFloat(duration)) / 100;
-    const total = parseFloat(principle) + interestRate;
+  const interestRateData = new Interest({
+    userId,
+    id: Math.random().toString(),
+    total: total.toString(),
+    principle: principle.toString(),
+    interestRate: interestRate.toString(),
+  });
 
-    const interestRateData = new Interest({
-      userId,
-      id: Math.random().toString(),
-      total: total.toString(),
-      principle: principle.toString(),
-      interestRate: interestRate.toString(),
-    });
+  await interestRateData.save();
+  res.status(200).json({
+    msg: "Interest Rate Data saved in DB successfully.",
+    interestRate,
+    total,
+  });
+});
 
-    await interestRateData.save();
-    res.status(200).json({
-      msg: "Interest Rate Data saved in DB successfully.",
-      interestRate,
-      total,
-    });
-  }
-);
-
-app.get("/interestRate", authenticateJWT, async (req, res) => {
+app.get("/authinterestRate", async (req, res) => {
   const exitingUser = await Interest.find();
   console.log(exitingUser);
   res.json({ data: exitingUser });
