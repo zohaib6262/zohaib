@@ -4,10 +4,11 @@ import InterestPageItem from "./InterestPageItem";
 import { Link, NavLink } from "react-router-dom";
 
 const InterestPage = () => {
+  const [isSubmmitting, setIsSubmmitting] = useState(false);
   const [interestRateData, setInterestRateData] = useState({
-    principle: 0,
-    rate: 0,
-    duration: 0,
+    principle: "",
+    rate: "",
+    duration: "",
   });
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
@@ -54,6 +55,7 @@ const InterestPage = () => {
 
   const calculateInterest = async () => {
     try {
+      setIsSubmmitting(true);
       const response = await fetch(
         "https://zohaib-two.vercel.app/calculateInterestRate",
         {
@@ -68,6 +70,7 @@ const InterestPage = () => {
           }),
         }
       );
+      setIsSubmmitting(false);
       const res = await response.json();
       if (response.ok) {
         setInterestRate({
@@ -75,7 +78,13 @@ const InterestPage = () => {
           interestRateValue: res.interestRate,
           total: res.total,
         });
+        setInterestRateData({
+          principle: "",
+          rate: "",
+          duration: "",
+        });
       } else {
+        setIsSubmmitting(false);
         setError(res.msg || "Calculation failed. Please try again.");
       }
     } catch (err) {
@@ -114,7 +123,7 @@ const InterestPage = () => {
             alignContent: "center",
             padding: "0rem 0.5rem",
             borderRadius: "1rem",
-            background: "#0056b3",
+            backgroundColor: "blue",
           }}
         >
           Logout
@@ -157,7 +166,14 @@ const InterestPage = () => {
           />
         </div>
 
-        <button onClick={calculateInterest}>Calculate Interest</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            calculateInterest();
+          }}
+        >
+          Calculate Interest
+        </button>
       </div>
 
       {interestRate.msg && (
@@ -166,6 +182,9 @@ const InterestPage = () => {
           <h2>Interest Rate: {interestRate.interestRateValue}</h2>
           <h2>Total: {interestRate.total}</h2>
         </div>
+      )}
+      {isSubmmitting && (
+        <div style={{ textAlign: "center" }}>Calculate Interest Rate</div>
       )}
 
       {error && <div style={{ color: "red" }}>{error}</div>}

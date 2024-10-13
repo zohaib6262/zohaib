@@ -40,7 +40,7 @@ input[type="password"]:focus {
   outline: none;
 }
 
-button {
+.btnSignup {
   background-color: #007bff;
   margin: 0.5rem 0rem;
   color: white;
@@ -52,27 +52,27 @@ button {
   font-size: 16px;
 }
 
-button:hover {
+.btnSignup:hover {
   background-color: #0056b3;
 }
 
-a {
-  text-decoration: none;
-  color: #0056b3;
-}
-
-#error {
+.error {
   color: red;
   text-align: center;
 }
 
-#account {
+.account {
+  margin-top: 1.5rem;
   font-size: 13px;
   text-align: center;
 }
-
-#account a {
+.anchor {
+  /* color: "#007bff";
+   */
+  color: #0056b3;
   text-decoration: underline;
-  font-weight: 600;
-  cursor: pointer;
+}
+.anchor:hover {
+  color: #0056b3;
+  background: #ccc;
 }

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import "./SignForm.css";
-import { Link, useNavigate } from "react-router-dom"; // Corrected import
+import { Link, NavLink, useNavigate } from "react-router-dom"; // Corrected import
+import classes from "./SignForm.module.css";
 
 const SignForm = () => {
   const navigate = useNavigate(); // Use useNavigate instead of useNavigation
+  const [isSubmmitting, setIsSubmmitting] = useState(false);
   const [signupData, setSignupData] = useState({
     name: "",
     username: "",
@@ -17,11 +18,13 @@ const SignForm = () => {
 
   const signupHandler = async (e) => {
     try {
+      setIsSubmmitting(true);
       const response = await fetch("https://zohaib-two.vercel.app/authsignup", {
         method: "POST",
         body: JSON.stringify(signupData),
         headers: { "Content-Type": "application/json" },
       });
+      setIsSubmmitting(false);
 
       const res = await response.json();
       if (response.ok) {
@@ -32,13 +35,14 @@ const SignForm = () => {
         setError(res.msg || "Signup failed. Please try again.");
       }
     } catch (err) {
+      setIsSubmmitting(false);
       console.error("Error occurred during signup", err);
       setError("An error occurred. Please try again later.");
     }
   };
 
   return (
-    <div className="signup">
+    <div className={classes.signup}>
       <h2>Sign Up</h2>
       <div>
         <label htmlFor="name">Name</label>
@@ -74,6 +78,7 @@ const SignForm = () => {
         />
       </div>
       <button
+        className={classes.btnSignup}
         onClick={(e) => {
           e.preventDefault();
           signupHandler();
@@ -81,11 +86,16 @@ const SignForm = () => {
       >
         Sign Up
       </button>
-      <div id="account">
+      <div className={classes.account}>
         <span>Already have an account? </span>
-        <Link to="/login">Login</Link>
+        <Link className={classes.anchor} to="/login">
+          Login
+        </Link>
       </div>
-      {error && <div id="error">{error}</div>}
+      {isSubmmitting && (
+        <div style={{ textAlign: "center" }}>Data Submitting...</div>
+      )}
+      {error && <div className={classes.error}>{error}</div>}
     </div>
   );
 };

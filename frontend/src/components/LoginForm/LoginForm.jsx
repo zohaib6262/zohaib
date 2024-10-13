@@ -3,6 +3,7 @@ import "./LoginForm.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const [isSubmmitting, setIsSubmmitting] = useState(false);
   const [loginData, setLoginData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -13,12 +14,13 @@ const LoginForm = () => {
 
   const loginHandler = async () => {
     try {
+      setIsSubmmitting(true);
       const response = await fetch("https://zohaib-two.vercel.app/authlogin", {
         method: "POST",
         body: JSON.stringify(loginData),
         headers: { "Content-Type": "application/json" },
       });
-
+      setIsSubmmitting(false);
       const res = await response.json();
       if (!response.ok) {
         // Keep the user on the login page and set the error message
@@ -33,6 +35,7 @@ const LoginForm = () => {
         // Mark the user as logged in
       }
     } catch (err) {
+      setIsSubmmitting(false);
       setError("An error occurred. Please try again later.");
       // Ensure the user is not marked as logged in
     }
@@ -76,6 +79,9 @@ const LoginForm = () => {
           <span>Don't have an account? </span>
           <Link to="/signup">Sign up</Link>
         </div>
+        {isSubmmitting && (
+          <div style={{ textAlign: "center" }}>Check user is valid!</div>
+        )}
         {error && <div id="error">{error}</div>}
       </div>
     </>
