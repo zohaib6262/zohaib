@@ -168,7 +168,7 @@ app.post("/calculateInterestRate", authenticateJWT, async (req, res) => {
   });
 });
 
-app.get("/authinterestRate", async (req, res) => {
+app.get("/authinterestRate", authenticateJWT, async (req, res) => {
   const exitingUser = await Interest.find();
   console.log(exitingUser);
   res.json({ data: exitingUser });
