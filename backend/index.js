@@ -27,6 +27,24 @@ const Users = mongoose.model("Users", {
   password: String,
 });
 
+app.post("/signup", async (req, res) => {
+  try {
+    const { email, username, password, confirmPassword } = req.body;
+    console.log(email);
+    const existingUser = await Users.findOne({ username });
+    console.log(existingUser);
+    if (existingUser) {
+      return res.status(409).json({ msg: "User already exists" });
+    }
+
+    const user = new Users({ email, username, password, confirmPassword });
+    await user.save();
+    res.status(200).json({ msg: "User saved in DB successfully" });
+  } catch (err) {
+    res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
 // POST route to handle signup
 app.post("/authsignup", async (req, res) => {
   const { name, username, password } = req.body;
