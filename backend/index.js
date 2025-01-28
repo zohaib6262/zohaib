@@ -192,6 +192,15 @@ app.get("/authinterestRate", authenticateJWT, async (req, res) => {
   res.json({ data: exitingUser });
 });
 
+app.get("/notifications", () => {
+  res.status(200).json({
+    network: 7,
+    jobs: 8,
+    messaging: 7,
+    notification: 5,
+  });
+});
+
 // Start the server
 app.listen(5500, () => {
   console.log(`Server running at http://localhost:${5500}`);
